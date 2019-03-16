@@ -1,8 +1,9 @@
 package pages;
 
+import helpers.Letter;
 import org.openqa.selenium.WebDriver;
 
-import static helpers.DataForTests.*;
+import java.io.IOException;
 
 public class CreateLetterPage extends Page {
 
@@ -12,8 +13,7 @@ public class CreateLetterPage extends Page {
     private static final String SEND_LETTER_SUBJECT_XPATH = "//input[@name='Subject']";
     private static final String SEND_LETTER_BODY_XPATH = "//*[@id='tinymce']";
     private static final String TOOLKIT_FRAME_XPATH = "//iframe[contains(@id,'toolkit')]";
-    private static final String SEND_LETTER_BTN_XPATH = "(//span[text()='Отправить'])[1]";
-    private static final String MESSAGE_SENT_XPATH = "//div[@class='message-sent__title']";
+    private static final String SEND_LETTER_BTN_XPATH = "//span[text()='Отправить']";
     private static final String UPLOAD_BTN_FOR_FILE_XPATH = "//span[text()='Прикрепить файл']/../preceding-sibling::input";
 
     private CreateLetterPage(WebDriver driver) {
@@ -21,53 +21,43 @@ public class CreateLetterPage extends Page {
         this.driver = driver;
     }
 
-    public static CreateLetterPage initPage(WebDriver driver) {
+    static CreateLetterPage initPage(WebDriver driver) {
         return new CreateLetterPage(driver);
     }
 
-    /**
-     * set value for field 'To'
-     */
-    public CreateLetterPage setValueForFieldTo() {
-        super.clearAndSetValueIntoField(SEND_LETTER_TO_XPATH, SEND_LETTER_TO);
+    private CreateLetterPage setValueForFieldTo(String sendLetterToXpath, String address) {
+        clearAndSetValueIntoField(sendLetterToXpath, address);
         return this;
     }
 
-    /**
-     * set value for field 'Subject'
-     */
-    public CreateLetterPage setValueForFieldSubject() {
-        super.clearAndSetValueIntoField(SEND_LETTER_SUBJECT_XPATH, SEND_LETTER_SUBJECT);
+    private CreateLetterPage setValueForFieldSubject(String sendLetterSubjectXpath, String subject) {
+        clearAndSetValueIntoField(sendLetterSubjectXpath, subject);
         return this;
     }
 
-    /**
-     * set value for field 'Body'
-     */
-    public CreateLetterPage setValueForFieldBody() {
-        super
-                .switchToFrame(findWebElementByXpath(TOOLKIT_FRAME_XPATH))
-                .clearAndSetValueIntoField(SEND_LETTER_BODY_XPATH, SEND_LETTER_BODY)
+    private CreateLetterPage setValueForFieldBody(String sendLetterBodyXpath, String body) {
+
+        switchToFrame(findElementByXpath(TOOLKIT_FRAME_XPATH))
+                .clearAndSetValueIntoField(sendLetterBodyXpath, body)
                 .switchToDefaultContent();
         return this;
     }
 
-    /**
-     * upload file into the letter
-     *
-     * @param filePath - path to file
-     */
-    public CreateLetterPage uploadFile(String filePath) {
-        super.uploadFile(UPLOAD_BTN_FOR_FILE_XPATH, filePath);
+    private CreateLetterPage uploadFile(String filePath) throws IOException {
+        uploadFile(UPLOAD_BTN_FOR_FILE_XPATH, filePath);
         return this;
     }
 
-    /**
-     * send the letter
-     */
-    public void sendLetter() {
-        super
-                .clickOnWebElementByLMB(SEND_LETTER_BTN_XPATH)
-                .checkThatExists(MESSAGE_SENT_XPATH);
+    public CreateLetterPage fillLetter(Letter letter) throws IOException {
+        setValueForFieldTo(SEND_LETTER_TO_XPATH, letter.getAddress());
+        setValueForFieldSubject(SEND_LETTER_SUBJECT_XPATH, letter.getSubject());
+        setValueForFieldBody(SEND_LETTER_BODY_XPATH, letter.getBody());
+        uploadFile(letter.getFilePath());
+        return this;
+    }
+
+    public AfterSentLetterPage sendLetter() {
+        clickOnElementByLMB(SEND_LETTER_BTN_XPATH);
+        return AfterSentLetterPage.initPage(driver);
     }
 }

@@ -5,6 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
+
 import static java.util.logging.Logger.getLogger;
 import static org.openqa.selenium.By.xpath;
 import static org.testng.Assert.assertEquals;
@@ -12,115 +15,108 @@ import static org.testng.Assert.fail;
 
 public class Page {
 
-    WebDriver driver;
+    private WebDriver driver;
 
-    public Page(WebDriver driver) {
+    Page(WebDriver driver) {
         this.driver = driver;
     }
 
     /**
-     * Find web element by xpath
+     * finds web element by xpath
      *
      * @param elementXpath - web element's xpath
      */
-    WebElement findWebElementByXpath(String elementXpath) {
+    WebElement findElementByXpath(String elementXpath) {
         return driver.findElement(xpath(elementXpath));
     }
 
     /**
-     * Click on the web element by left mouse's button
+     * clicks on the web element by left mouse's button
      *
      * @param elementXpath - element's xpath for a click
      */
-    public Page clickOnWebElementByLMB(String elementXpath) {
-        WebElement webElement = findWebElementByXpath(elementXpath);
-        webElement.click();
+    Page clickOnElementByLMB(String elementXpath) {
+        WebElement element = findElementByXpath(elementXpath);
+        element.click();
         return this;
     }
 
     /**
-     * Set value into the field
+     * sets value into the field
      *
      * @param fieldXpath - field's xpath
      * @param value      - field's value
      */
-    public Page clearAndSetValueIntoField(String fieldXpath, String value) {
-        WebElement field = findWebElementByXpath(fieldXpath);
+    Page clearAndSetValueIntoField(String fieldXpath, String value) {
+        WebElement field = findElementByXpath(fieldXpath);
         field.clear();
         field.sendKeys(value);
         return this;
     }
 
     /**
-     * Wait for presence of the element
+     * waits for presence of the element
      *
      * @param elementXpath - element's xpath
      * @param seconds      - time in seconds
      */
-    Page waitForElementPresence(String elementXpath, int seconds) {
+    public Page waitForElementPresence(String elementXpath, int seconds) {
         WebDriverWait wait = new WebDriverWait(driver, seconds);
         wait.until(ExpectedConditions.presenceOfElementLocated(xpath(elementXpath)));
         return this;
     }
 
-    /*Page executeJavaScript(String jsCode, Object... arguments) {
-        Selenide.executeJavaScript(jsCode, arguments);
-        return this;
-    }*/
-
     /**
-     * Switch to frame
+     * switches to frame
      *
      * @param elementXpath - element's xpath
      */
-    public Page switchToFrame(WebElement elementXpath) {
+    Page switchToFrame(WebElement elementXpath) {
         driver.switchTo().frame(elementXpath);
         return this;
     }
 
     /**
-     * Switch to default content
+     * switches to default content
      */
-    public Page switchToDefaultContent() {
+    void switchToDefaultContent() {
         driver.switchTo().defaultContent();
-        return this;
     }
 
     /**
-     * Get visible element's text and assert it with matched text
+     * gets visible element's text and assert it with matched text
      *
      * @param elementXpath - element's xpath
      * @param matchedText  - matched text
      */
-    public Page getVisibleTextAndAssertIt(String elementXpath, String matchedText) {
-        String elementText = findWebElementByXpath(elementXpath).getText();
+    void getVisibleTextAndAssertIt(String elementXpath, String matchedText) {
+        String elementText = findElementByXpath(elementXpath).getText();
         assertEquals(elementText, matchedText);
-        return this;
     }
 
     /**
-     * upload file into the letter
+     * uploads file into the letter
      *
      * @param inputXpath - input element's xpath
      * @param filePath   - path to file
      */
-    public Page uploadFile(String inputXpath, String filePath) {
+    void uploadFile(String inputXpath, String filePath) throws IOException {
         try {
-            findWebElementByXpath(inputXpath).sendKeys(filePath);
+            findElementByXpath(inputXpath).sendKeys(new File(filePath).getCanonicalPath());
         } catch (IllegalArgumentException ex) {
             getLogger("MainLogger").info("File not found by the path: " + filePath);
         }
-        return this;
     }
 
     /**
+     * checks if the element is displayed on the page
+     *
      * @param elementXpath - element's xpath
      */
-    public Page checkThatExists(String elementXpath) {
-        WebElement element = findWebElementByXpath(elementXpath);
+    void checkThatExists(String elementXpath) {
+        WebElement element = findElementByXpath(elementXpath);
         if (!element.isDisplayed()) {
             fail("Element " + elementXpath + " is not found");
         }
-        return this;
     }
 }

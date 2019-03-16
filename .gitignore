@@ -12,4 +12,4 @@ build/
 out/
 .gradle/
 build.gradle
-setting.gradle
+settings.gradle

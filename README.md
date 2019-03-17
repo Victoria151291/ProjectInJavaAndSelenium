@@ -4,9 +4,11 @@
 
 * build.gradle - the file with dependencies of the project
 * README.md - contains projects' files' description
+
 **src/main/java
 1. /helpers - helper classes
 2. /pages - pages with pageObject
+
 **src/test/java
 1. /tests - some project's tests
 ** src/test/resources

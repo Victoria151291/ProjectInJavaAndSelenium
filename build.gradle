@@ -46,6 +46,11 @@ dependencies {
 
 }
 
+test {
+    useTestNG {
+    }
+}
+
 sourceSets {
     main {
         java {

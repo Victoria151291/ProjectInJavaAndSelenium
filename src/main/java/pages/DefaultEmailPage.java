@@ -3,7 +3,7 @@ package pages;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
-public class DefaultLettersPage extends Page {
+public class DefaultEmailPage extends Page {
 
     private WebDriver driver;
 
@@ -12,23 +12,23 @@ public class DefaultLettersPage extends Page {
     private static final String LETTER_FORM_XPATH = "//div[@id='b-compose']";
     public static final String SENT_LETTERS_XPATH = "//span[text()='Отправленные']";
 
-    private DefaultLettersPage(WebDriver driver) {
+    private DefaultEmailPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
     }
 
-    public static DefaultLettersPage initPage(WebDriver driver) {
-        return new DefaultLettersPage(driver);
+    public static DefaultEmailPage initPage(WebDriver driver) {
+        return new DefaultEmailPage(driver);
     }
 
 
-    public CreateLetterPage initCreationOfLetter() {
+    public CreateEmailPage initCreationOfLetter() {
         clickOnElementByLMB(WRITE_LETTER_BTN_XPATH)
                 .waitForElementPresence(LETTER_FORM_XPATH, 2);
-        return CreateLetterPage.initPage(driver);
+        return CreateEmailPage.initPage(driver);
     }
 
-    public DefaultLettersPage openLettersPage(String lettersPage) {
+    public DefaultEmailPage openLettersPage(String lettersPage) {
         clickOnElementByLMB(lettersPage);
         try {
             waitForElementPresence(LETTER_ROW_XPATH, 5);
@@ -39,7 +39,7 @@ public class DefaultLettersPage extends Page {
     }
 
     @Override
-    public DefaultLettersPage waitForElementPresence(String elementXpath, int seconds) {
+    public DefaultEmailPage waitForElementPresence(String elementXpath, int seconds) {
         super.waitForElementPresence(elementXpath, seconds);
         return this;
     }

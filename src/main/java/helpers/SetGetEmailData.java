@@ -1,13 +1,13 @@
 package helpers;
 
-public class Letter {
+public class SetGetEmailData {
 
     private String sendLetterToAddress;
     private String subject;
     private String body;
     private String filePath;
 
-    public Letter setSubject(String subject) {
+    public SetGetEmailData setSubject(String subject) {
         this.subject = subject;
         return this;
     }
@@ -16,7 +16,7 @@ public class Letter {
         return subject;
     }
 
-    public Letter setBody(String body) {
+    public SetGetEmailData setBody(String body) {
         this.body = body;
         return this;
     }
@@ -26,7 +26,7 @@ public class Letter {
     }
 
 
-    public Letter setAddress(String address) {
+    public SetGetEmailData setAddress(String address) {
         this.sendLetterToAddress = address;
         return this;
     }
@@ -35,7 +35,7 @@ public class Letter {
         return sendLetterToAddress;
     }
 
-    public Letter setFilePath(String filePath) {
+    public SetGetEmailData setFilePath(String filePath) {
         this.filePath = filePath;
         return this;
     }

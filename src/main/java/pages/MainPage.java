@@ -35,12 +35,12 @@ public class MainPage extends Page {
     /**
      * auth and login into the page
      */
-    public DefaultLettersPage authAndLogIn() {
+    public DefaultEmailPage authAndLogIn() {
         clearAndSetValueIntoField(FIELD_LOGIN_XPATH, TEST_LOGIN)
                 .clearAndSetValueIntoField(FIELD_PASS_XPATH, TEST_PASS)
                 .clickOnElementByLMB(SAVE_AUTH_CHECKBOX_XPATH)
                 .clickOnElementByLMB(LOGIN_BTN_XPATH);
-        return DefaultLettersPage.initPage(driver);
+        return DefaultEmailPage.initPage(driver);
     }
 
     /**

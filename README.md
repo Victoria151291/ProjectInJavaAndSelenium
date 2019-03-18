@@ -11,7 +11,8 @@
 
 **src/test/java**
 1. /tests - some project's tests
-** src/test/resources
+
+**src/test/resources**
 1. /drivers - web drivers to run tests in the browser
 2. /filesForUploading - files to upload in the some content of web page
 

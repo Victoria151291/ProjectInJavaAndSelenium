@@ -23,7 +23,7 @@ public class BaseTest {
     }
 
     /**
-     * logs out from the page and closes chrome driver
+     * logs out from the page and closes the chrome driver
      */
     @AfterClass
     public void tearDown() {

@@ -15,7 +15,7 @@ import static pages.DefaultLettersPage.WRITE_LETTER_BTN_XPATH;
 
 public class WorkWithLettersTests extends BaseTest {
 
-    @Test(description = "Создание, отправка и проверка наличия письма в 'Отправленных'")
+    @Test(description = "This test creates, sends and checks for email in 'Sent emails'")
     public void createAndSendLetter() throws IOException {
         DefaultLettersPage defaultLettersPage = DefaultLettersPage.initPage(driver);
         defaultLettersPage

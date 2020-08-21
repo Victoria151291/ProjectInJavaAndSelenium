@@ -1,4 +1,4 @@
-# Test project for Quality Lab with using of framework Selenium
+# Test project with the framework Selenium
 
 ### Files' structure of this project:
 
